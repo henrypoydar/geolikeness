@@ -7,7 +7,7 @@ map_ready = ->
       App.map_location['latitude'], App.map_location['longitude'])
     map_options =
       center: base_location
-      zoom: 8
+      zoom: 15
       disableDefaultUI: true
       styles: App.map_style
       mapTypeId: google.maps.MapTypeId.TERRAIN
