@@ -7,28 +7,25 @@ map_ready = ->
       App.map_location['latitude'], App.map_location['longitude'])
     map_options =
       center: base_location
-      zoom: 15
+      zoom: App.map_location['zoom']
       disableDefaultUI: true
       styles: App.map_style
       mapTypeId: google.maps.MapTypeId.TERRAIN
     gmap = new google.maps.Map($map_element.get(0), map_options)
+    google.maps.event.addListener gmap, "click", (event) ->
+      console.log event.latLng
+      console.log gmap.getZoom()
 
-  # HTML5 Geolocation API
-  if navigator.geolocation
-    locationSuccess = (position) ->
-      App.map_location =
-        latitude: position.coords.latitude
-        longitude: position.coords.longitude
-      initialize_map()
-    locationFail = ->
-      App.map_location =
-        latitude: 40.6617
-      initialize_map()
-    navigator.geolocation.getCurrentPosition locationSuccess, locationFail
-  else
-    App.map_location =
-      latitude: 40.6617
-      longitude: -73.9708
-    initialize_map()
+      marker = new google.maps.Marker(
+        position: event.latLng
+        map: gmap
+      )
+      return
+
+  App.map_location =
+    latitude: 44.69535234555909
+    longitude: -114.71782207489014
+    zoom: 15
+  initialize_map()
 
 $(document).ready(map_ready)
